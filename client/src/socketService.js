@@ -16,16 +16,16 @@ export const disconnectSocket = () => {
   if (socket) socket.disconnect();
 };
 
-export const setColor = (bg) => {
-  if (socket) socket.emit("new-bg", bg);
+export const setColor = (data) => {
+  if (socket) socket.emit("new-bg", data);
 };
 
 export const subscribeToColor = (cb) => {
   if (!socket) return true;
 
-  socket.on("receive-bg", (bg) => {
-    console.log("bg changed: ", bg);
-    cb(bg);
+  socket.on("receive-bg", (data) => {
+    console.log("bg changed: ", data);
+    cb(data);
   });
 };
 
@@ -36,5 +36,16 @@ export const initialColor = (initColor, inputColor) => {
     console.log("init color: ", color);
     initColor(color);
     inputColor(color);
+  });
+};
+
+export const initialData = (initColor, inputColor, initName) => {
+  if (!socket) return true;
+
+  socket.on("initial-data", (data) => {
+    console.log("init data: ", data);
+    initColor(data.color);
+    inputColor(data.color);
+    initName(data.name);
   });
 };
