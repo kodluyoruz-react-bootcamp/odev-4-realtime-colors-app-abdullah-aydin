@@ -28,3 +28,13 @@ export const subscribeToColor = (cb) => {
     cb(bg);
   });
 };
+
+export const initialColor = (initColor, inputColor) => {
+  if (!socket) return true;
+
+  socket.on("initial-color", (color) => {
+    console.log("init color: ", color);
+    initColor(color);
+    inputColor(color);
+  });
+};

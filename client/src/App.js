@@ -4,6 +4,7 @@ import {
   disconnectSocket,
   setColor,
   subscribeToColor,
+  initialColor,
 } from "./socketService";
 import "./App.css";
 
@@ -13,6 +14,7 @@ function App() {
 
   useEffect(() => {
     initSocket();
+    initialColor(setBgColor, setInputColor);
 
     subscribeToColor((bg) => {
       setBgColor(bg);
@@ -20,7 +22,7 @@ function App() {
     });
 
     return () => disconnectSocket();
-  }, []);
+  }, [bgColor]);
 
   const buttonOnClick = () => {
     setBgColor(inputColor);
