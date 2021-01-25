@@ -1,0 +1,10 @@
+.h3 {
+  padding-left: 15px;
+}
+.code {
+  background-color: #a3d2ca;
+  padding: 15px;
+  border-radius: 10px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier,
+    monospace !important;
+}

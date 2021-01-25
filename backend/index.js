@@ -6,7 +6,10 @@ app.get("/", (req, res) => {
   res.send("<h1>Hello world</h1>");
 });
 
-let initData = { colors: { color1: "gray", color2: "red" }, name: "....." };
+let initData = {
+  colors: { color1: "#808080	", color2: "#FF0000" },
+  name: "*nameless*",
+};
 
 io.on("connection", (socket) => {
   console.log("a user connected");

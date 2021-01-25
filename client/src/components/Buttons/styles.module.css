@@ -1,0 +1,41 @@
+.colorPicker {
+  display: flex;
+  margin: 20px 0;
+}
+
+.colorPickerBtn {
+  text-align: center;
+}
+
+.colorPickerP {
+  margin: 10px 20px 5px;
+}
+
+.arrowBtn {
+  font-size: 1.3rem;
+  margin: 1rem;
+  padding: 0.5rem;
+  border: 1px solid white;
+  border-radius: 50%;
+  color: white;
+}
+.arrowBtn:hover {
+  border: 1px solid;
+  border-radius: 50%;
+  color: black;
+}
+.selected {
+  border: 1px solid;
+  border-radius: 50%;
+  color: black;
+}
+
+.directionPickerP {
+  text-align: center;
+}
+
+.changeBtn {
+  padding: 10px;
+  font-family: "Josefin Sans", sans-serif !important;
+  font-weight: bold;
+}

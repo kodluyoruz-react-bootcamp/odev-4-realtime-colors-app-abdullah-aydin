@@ -7,26 +7,31 @@ import {
   initialData,
 } from "./socketService";
 import "./App.css";
+//components
+import Title from "./components/Title";
+import LastName from "./components/LastName";
+import CodeOutput from "./components/CodeOutput";
+import Buttons from "./components/Buttons";
+import Footer from "./components/Footer";
 
 function App() {
   //background colors
   const [bgColors, setBgColors] = useState({
-    color1: "#6438bc",
-    color2: "#B408A4",
+    color1: "#e52e2e",
+    color2: "#c0ec22",
   });
-
   // input colors
   const [inputColors, setInputColors] = useState({
-    color1: "#6438bc",
-    color2: "#B408A4",
+    color1: "#e52e2e",
+    color2: "#c0ec22",
   });
-
   // the user name
   const [userName, setUserName] = useState("");
-
   // the user who made the last change
-  const [lastName, setLastName] = useState("...");
+  const [lastName, setLastName] = useState("*nameless*");
+  const [arrows, setArrows] = useState("bottom");
 
+  //asks for username when opening the page
   useEffect(() => {
     if (!userName) {
       const name = prompt("Lütfen Kullanıcı Adınızı Giriniz!");
@@ -56,41 +61,26 @@ function App() {
   };
 
   return (
-    <div
-      className="App"
-      style={{
-        background: `linear-gradient(to right,  ${bgColors.color1},${bgColors.color2})`,
-      }}
-    >
-      <h1 className="hexCode">Welcome {userName}</h1>
-      <br />
-      <h3 className="hexCode">
-        Background Color Hex Code
-        <br />
-        {/* {bgColor} */}
-      </h3>
-      <input
-        type="color"
-        className="color1"
-        value={inputColors.color1}
-        onChange={(e) =>
-          setInputColors({ ...inputColors, color1: e.target.value })
-        }
-      />
-      <input
-        type="color"
-        className="color2"
-        value={inputColors.color2}
-        onChange={(e) =>
-          setInputColors({ ...inputColors, color2: e.target.value })
-        }
-      />
-      <button onClick={buttonOnClick}>Change Background Color</button>
-      <br />
-      <h4 className="hexCode">
-        <em>Last changed by {lastName}</em>
-      </h4>
-    </div>
+    userName && (
+      <div
+        className="App"
+        style={{
+          backgroundImage: `linear-gradient(to ${arrows},  ${bgColors.color1}, ${bgColors.color2})`,
+        }}
+      >
+        <Title userName={userName} />
+        <Buttons
+          inputColors={inputColors}
+          setInputColors={setInputColors}
+          buttonOnClick={buttonOnClick}
+          arrows={arrows}
+          setArrows={setArrows}
+        />
+        <CodeOutput bgColors={bgColors} arrows={arrows} />
+        <LastName lastName={lastName} />
+        <Footer />
+      </div>
+    )
   );
 }
 
