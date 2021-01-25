@@ -3,7 +3,7 @@ import io from "socket.io-client";
 let socket;
 
 export const initSocket = () => {
-  socket = io("http://localhost:3001", {
+  socket = io("https://realtime-color-app.herokuapp.com/", {
     transports: ["websocket"],
   });
 
