@@ -2,65 +2,94 @@ import { useState, useEffect } from "react";
 import {
   initSocket,
   disconnectSocket,
-  setColor,
+  setGradientColors,
   subscribeToColor,
   initialData,
 } from "./socketService";
 import "./App.css";
 
 function App() {
-  const [bgColor, setBgColor] = useState("#000");
-  const [inputColor, setInputColor] = useState("#000");
+  //background colors
+  const [bgColors, setBgColors] = useState({
+    color1: "#6438bc",
+    color2: "#B408A4",
+  });
 
-  const [initName, setInıtName] = useState("..."); 
+  // input colors
+  const [inputColors, setInputColors] = useState({
+    color1: "#6438bc",
+    color2: "#B408A4",
+  });
+
+  // the user name
   const [userName, setUserName] = useState("");
 
-  useEffect(() => {
-    initSocket();
-    initialData(setBgColor, setInputColor, setInıtName);
-
-    subscribeToColor((data) => {
-      setBgColor(data.color);
-      setInputColor(data.color);
-    });
-
-    return () => disconnectSocket();
-  }, [bgColor]);
+  // the user who made the last change
+  const [lastName, setLastName] = useState("...");
 
   useEffect(() => {
     if (!userName) {
-      const uName = prompt("Lütfen Adınızı Giriniz!");
-      setUserName(uName);
+      const name = prompt("Lütfen Kullanıcı Adınızı Giriniz!");
+      setUserName(name ? name : "*nameless*");
     }
   }, [userName]);
 
+  useEffect(() => {
+    initSocket();
+    initialData(setBgColors, setInputColors, setLastName);
+
+    subscribeToColor((data) => {
+      setBgColors(data.colors);
+      setInputColors(data.colors);
+      setLastName(data.name);
+    });
+
+    return () => disconnectSocket();
+  }, [bgColors.color1, bgColors.color2]);
+
   const buttonOnClick = () => {
-    setBgColor(inputColor);
-    setColor({
-      color: inputColor,
+    setBgColors(inputColors);
+    setGradientColors({
+      colors: inputColors,
       name: userName,
-      date: new Date(),
     });
   };
 
   return (
-    <div className="App" style={{ backgroundColor: bgColor }}>
-      <h1 className="hexCode">Hoş Geldin {userName}</h1>
+    <div
+      className="App"
+      style={{
+        background: `linear-gradient(to right,  ${bgColors.color1},${bgColors.color2})`,
+      }}
+    >
+      <h1 className="hexCode">Welcome {userName}</h1>
       <br />
       <h3 className="hexCode">
         Background Color Hex Code
         <br />
-        {bgColor}
+        {/* {bgColor} */}
       </h3>
       <input
         type="color"
-        className="bgColor"
-        value={inputColor}
-        onChange={(e) => setInputColor(e.target.value)}
+        className="color1"
+        value={inputColors.color1}
+        onChange={(e) =>
+          setInputColors({ ...inputColors, color1: e.target.value })
+        }
+      />
+      <input
+        type="color"
+        className="color2"
+        value={inputColors.color2}
+        onChange={(e) =>
+          setInputColors({ ...inputColors, color2: e.target.value })
+        }
       />
       <button onClick={buttonOnClick}>Change Background Color</button>
       <br />
-      <h2 className="hexCode">En son {initName} tarafından değiştirildi.</h2>
+      <h4 className="hexCode">
+        <em>Last changed by {lastName}</em>
+      </h4>
     </div>
   );
 }

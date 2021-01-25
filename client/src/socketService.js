@@ -16,7 +16,8 @@ export const disconnectSocket = () => {
   if (socket) socket.disconnect();
 };
 
-export const setColor = (data) => {
+export const setGradientColors = (data) => {
+  console.log("data", data);
   if (socket) socket.emit("new-bg", data);
 };
 
@@ -29,23 +30,14 @@ export const subscribeToColor = (cb) => {
   });
 };
 
-export const initialColor = (initColor, inputColor) => {
-  if (!socket) return true;
-
-  socket.on("initial-color", (color) => {
-    console.log("init color: ", color);
-    initColor(color);
-    inputColor(color);
-  });
-};
-
-export const initialData = (initColor, inputColor, initName) => {
+// The data the user will see on the page when connected
+export const initialData = (setBgColors, setInputColors, setLastName) => {
   if (!socket) return true;
 
   socket.on("initial-data", (data) => {
     console.log("init data: ", data);
-    initColor(data.color);
-    inputColor(data.color);
-    initName(data.name);
+    setBgColors(data.colors);
+    setInputColors(data.colors);
+    setLastName(data.name);
   });
 };
